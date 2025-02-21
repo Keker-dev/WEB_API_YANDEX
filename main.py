@@ -5,6 +5,7 @@ import pygame
 import argparse
 
 z = 17
+d = 0.0001
 
 
 def main(coords):
@@ -36,7 +37,7 @@ def main(coords):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--coords", type=str, nargs='+')
-    parser.add_argument("--scale", type=int, default=17)
+    parser.add_argument("--scale", type=int, default=z)
     args = parser.parse_args()
     toponym_find = args.coords
     z = args.scale
