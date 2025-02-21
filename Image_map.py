@@ -3,7 +3,7 @@ from PIL import Image
 import requests
 
 
-def show_map(lat, lon, spn):
+def get_map(lat, lon, spn):
     apikey = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
     map_params = {
         "ll": ",".join([lat, lon]),
@@ -15,6 +15,4 @@ def show_map(lat, lon, spn):
     response = requests.get(map_api_server, params=map_params)
     if not response:
         return
-    im = BytesIO(response.content)
-    opened_image = Image.open(im)
-    opened_image.show()
+    return BytesIO(response.content)
