@@ -2,6 +2,7 @@ import sys
 from geocoder import *
 from Image_map import *
 import pygame
+import argparse
 
 
 def main(img):
@@ -22,10 +23,15 @@ def main(img):
 
 
 if __name__ == "__main__":
-    toponym_find = " ".join(sys.argv[1:])
-    if toponym_find:
-        coords, spn = get_coordinates(toponym_find)
-        im = get_map(*coords, spn)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--coords", type=str, nargs='+')
+    parser.add_argument("--scale", type=int, default=17)
+    args = parser.parse_args()
+    toponym_find = args.coords
+    z = args.scale
+    if toponym_find and z:
+        # coords, spn = get_coordinates(toponym_find) 37.617779 55.755246
+        im = get_map(*toponym_find, z)
         main(pygame.image.load(im))
     else:
         print("No data")
