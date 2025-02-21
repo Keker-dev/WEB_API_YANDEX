@@ -2,11 +2,12 @@ from io import BytesIO
 import requests
 
 
-def get_map(lat, lon, z):
+def get_map(lat, lon, z, theme="light"):
     apikey = "f3a0fe3a-b07e-4840-a1da-06f18b2ddf13"
     map_params = {
         "ll": ",".join([lat, lon]),
         "z": z,
+        "theme": theme,
         "apikey": apikey,  # "pt": "{0},pm2dgl".format(f"{lat},{lon}"),
     }
     map_api_server = "https://static-maps.yandex.ru/v1"
