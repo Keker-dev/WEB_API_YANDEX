@@ -4,8 +4,12 @@ from Image_map import *
 import pygame
 import argparse
 
+z = 17
 
-def main(img):
+
+def main(coords):
+    global z
+    img = pygame.image.load(get_map(*coords, z))
     screen = pygame.display.set_mode(img.get_size())
 
     clock = pygame.time.Clock()
@@ -14,6 +18,13 @@ def main(img):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_PAGEUP:
+                    z = z + 1 if (z + 1) <= 21 else 21
+                    img = pygame.image.load(get_map(*coords, z))
+                if event.key == pygame.K_PAGEDOWN:
+                    z = z - 1 if (z - 1) > 0 else 0
+                    img = pygame.image.load(get_map(*coords, z))
 
         screen.blit(img, (0, 0))
         pygame.display.flip()
@@ -31,7 +42,6 @@ if __name__ == "__main__":
     z = args.scale
     if toponym_find and z:
         # coords, spn = get_coordinates(toponym_find) 37.617779 55.755246
-        im = get_map(*toponym_find, z)
-        main(pygame.image.load(im))
+        main(toponym_find)
     else:
         print("No data")
