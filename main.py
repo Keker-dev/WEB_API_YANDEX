@@ -4,13 +4,17 @@ from Image_map import *
 import pygame
 import argparse
 
-z = 17
-d = 0.0001
+z = 21
+d = 0.00001
 
 
 def main(coords):
-    global z
-    img = pygame.image.load(get_map(*coords, z))
+    global z, d
+
+    def new_image():
+        return pygame.image.load(get_map(*coords, z))
+
+    img = new_image()
     screen = pygame.display.set_mode(img.get_size())
 
     clock = pygame.time.Clock()
@@ -21,11 +25,25 @@ def main(coords):
                 running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_PAGEUP:
+                    d /= 2
                     z = z + 1 if (z + 1) <= 21 else 21
-                    img = pygame.image.load(get_map(*coords, z))
+                    img = new_image()
                 if event.key == pygame.K_PAGEDOWN:
+                    d *= 2
                     z = z - 1 if (z - 1) > 0 else 0
-                    img = pygame.image.load(get_map(*coords, z))
+                    img = new_image()
+                if event.key == pygame.K_w:
+                    coords[1] = str(float(coords[1]) + d)
+                    img = new_image()
+                if event.key == pygame.K_s:
+                    coords[1] = str(float(coords[1]) - d)
+                    img = new_image()
+                if event.key == pygame.K_d:
+                    coords[0] = str(float(coords[0]) + d)
+                    img = new_image()
+                if event.key == pygame.K_a:
+                    coords[0] = str(float(coords[0]) - d)
+                    img = new_image()
 
         screen.blit(img, (0, 0))
         pygame.display.flip()
@@ -41,6 +59,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
     toponym_find = args.coords
     z = args.scale
+    d *= 2 ** (21 - z)
     if toponym_find and z:
         # coords, spn = get_coordinates(toponym_find) 37.617779 55.755246
         main(toponym_find)
