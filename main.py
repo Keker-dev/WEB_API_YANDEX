@@ -40,10 +40,13 @@ class MapUI(Sprite):
         self.z = z
         self.d = 0.00001 * (2 ** (21 - z))
         self.theme = theme
+        self.is_point = None
         self.draw_ui()
 
-    def draw_ui(self, with_pt=False):
-        self.image = pygame.image.load(get_map(*self.coords, self.z, self.theme, with_pt))
+    def draw_ui(self):
+        new_map = get_map(*self.coords, self.z, self.theme, self.is_point if self.is_point else False)
+        if new_map:
+            self.image = pygame.image.load(new_map)
 
     def update(self, events, *args, **kwargs):
         old_prms = self.coords[0], self.coords[1], self.z, self.theme
@@ -120,7 +123,8 @@ def main(map_prms):
 
     def find_object(text):
         Map.coords = get_coordinates(text)
-        Map.draw_ui(True)
+        Map.is_point = Map.coords[:]
+        Map.draw_ui()
 
     input_field = InputUI(all_spr, [find_object, list(), dict()], pos=(20, 470))
 
