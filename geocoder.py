@@ -19,4 +19,4 @@ def get_coordinates(toponym_to_find):
     toponym_size = (abs(toponym_size[0][0] - toponym_size[1][0]), abs(toponym_size[0][1] - toponym_size[1][1]))
     toponym_size = ",".join(map(str, toponym_size))
     toponym_coodrinates = toponym["Point"]["pos"]
-    return toponym_coodrinates.split(" "), toponym_size
+    return toponym_coodrinates.split(" ")
